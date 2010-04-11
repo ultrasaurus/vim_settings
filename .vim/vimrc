@@ -1,0 +1,467 @@
+"version 6.0
+filetype plugin on
+colorscheme subtle      "need to also put in .gvimrc on the mac
+set clipboard=unnamed 
+set nocompatible
+let s:cpo_save=&cpo
+set cpo&vim
+cnoremap <C-F4> c
+inoremap <C-F4> c
+cmap <S-Insert> +
+map! <xHome> <Home>
+map! <xEnd> <End>
+map! <S-xF4> <S-F4>
+map! <S-xF3> <S-F3>
+map! <S-xF2> <S-F2>
+map! <S-xF1> <S-F1>
+map! <xF4> <F4>
+map! <xF3> <F3>
+map! <xF2> <F2>
+map! <xF1> <F1>
+imap <S-Insert> 
+imap <C-PageDown> L$
+imap <C-PageUp> H
+noremap  gggHG
+vnoremap  "+y
+noremap  
+vnoremap  :update
+nnoremap  :update
+onoremap  :update
+nmap  "+gP
+omap  "+gP
+vnoremap  "+x
+noremap  
+noremap  u
+cnoremap   :simalt ~
+inoremap   :simalt ~
+map Q gq
+vnoremap p :let current_reg = @"gvs=current_reg
+noremap <C-F4> c
+noremap <C-Tab> w
+vmap <S-Insert> 
+vnoremap <BS> d
+map <xHome> <Home>
+map <xEnd> <End>
+map <S-xF4> <S-F4>
+map <S-xF3> <S-F3>
+map <S-xF2> <S-F2>
+map <S-xF1> <S-F1>
+map <xF4> <F4>
+map <xF3> <F3>
+map <xF2> <F2>
+map <xF1> <F1>
+vmap <C-Del> "*d
+vnoremap <S-Del> "+x
+vnoremap <C-Insert> "+y
+nmap <S-Insert> "+gP
+omap <S-Insert> "+gP
+nmap <C-PageDown> L$
+vmap <C-PageDown> L$
+nmap <C-PageUp> H
+vmap <C-PageUp> H
+cnoremap  gggHG
+inoremap  gggHG
+inoremap  :update
+cmap  +
+inoremap  
+inoremap  u
+noremap   :simalt ~
+let &cpo=s:cpo_save
+unlet s:cpo_save
+set autoindent
+set backspace=2
+set backup
+set history=50
+set hlsearch
+set incsearch
+set keymodel=startsel,stopsel
+set ruler
+set selection=exclusive
+set selectmode=mouse,key
+set sw=2
+set sts=2
+set ts=2
+set et
+"set gfn=Lucida_Console:h9:cANSI
+set gfn=Lucida_Console:h10:cANSI
+set whichwrap=b,s,<,>,[,]
+
+if has("gui_running")
+    set lines=50
+    "diff stuff 
+    if &diff
+        set co=165
+    else
+        set co=80
+    endif 
+endif
+hi DiffAdd       guibg=#FFE680
+hi DiffChange    guifg=#55441C guibg=#FFC080 
+hi DiffText      guifg=#000000 guibg=#FFC080
+hi DiffDelete    guifg=#AAAAAE guibg=#AAAAAE
+
+set diffopt=context:8,iwhite,filler
+
+syn enable
+"set sh=C:\\cygwin\\bin\\bash.exe\ --login\ -i
+set ignorecase
+set guioptions-=T
+
+amenu &P4.&Add :silent !p4 add %:p<CR> 
+amenu P4.&Edit :call P4Edit()<CR>
+amenu P4.&Revert :call P4Revert()<CR>
+amenu P4.&Diff :call P4GoodDiff()<CR>
+amenu P4.Re&visions :call P4Revisions()<CR>
+amenu P4.&Opened :call P4Opened()<CR>
+amenu P4.&Change :call P4GetChange( " " )<CR>
+amenu P4.C&lient :call P4GetClient( )<CR>
+
+autocmd FileChangedRO * echo "Editing read-only file."
+
+set shellslash
+set sr
+
+hi Comment     guifg=#5F5F5F
+hi Constant    guifg=#4444AA
+hi Type        gui=NONE guifg=#990011
+hi Search      guibg=#FFFFAA
+
+
+function! Eatchar(pat)
+    let c = nr2char(getchar())
+    return (c =~ a:pat) ? '' : c
+endfunc
+
+autocmd FileType actionscript set smartindent
+autocmd FileType actionscript set foldmethod=indent
+autocmd FileType actionscript abbreviate Deb _root.Debug.write(
+
+cabbr desk /Users/sarah/Desktop
+cabbr Rgrep grep -R --exclude=\\*~
+
+"Mail
+autocmd FileType mail set lbr
+"autocmd FileType mail set co=74
+autocmd FileType mail set textwidth=68
+
+map <F1> :lcd $LPS_HOME<CR>:lcd WEB-INF/lps/lfc/<CR>:E .<CR>
+map <F2> :lcd $LPS_HOME<CR>:lcd test/video<CR>:E .<CR>
+map <F3> :lcd $LPS_HOME<CR>:lcd lps/components/extensions/av<CR>:E .<CR>
+map <F4> :lcd $LPS_HOME<CR>:lcd ../sandbox/sallen <CR>:E .<CR>
+map <F5> :lcd $LPS_HOME<CR>:lcd my-apps <CR>:E .<CR>
+map <F6> :lcd $LPS_HOME<CR>:lcd test<CR>:E .<CR>
+map <F7> :lcd $LPS_HOME<CR>:lcd test/bugs<CR>:E .<CR>
+map <F8> :lcd $LPS_HOME<CR>:lcd $LPS_RELEASE<CR>:E .<CR>
+    
+map <C-e>  :silent !explorer %:p:h:gs?\/?\\\\\\?<CR>
+if has("gui_running")
+    cnoremap q<CR> <CR>:call ConfirmQuit()<CR><CR>
+endif
+
+map <C-S-s>  :let @f=@%<CR> :call GetWinPath()<CR>
+
+map R  "_c
+
+function! ConfirmQuit()
+    let dq = confirm ("quit?" , "&Yes\n&No" ,2 )  
+    echo dq
+    if dq == 1
+        quit
+    endif
+endfunction " ConfirmQuit()
+
+"BufExplorer
+map <C-b> :SBufExplorer<CR>
+let g:bufExplorerSplitBelow=1        " Split new window below current.
+let g:bufExplorerOpenMode=1       " Open in new window.
+                
+"MRU
+map  :MRU<CR>
+nmap . .`[
+let MRU_Exclude_Files = '\WTemp\W'        
+
+map <C-j> :call FindOpen()<CR>
+function! FindOpen()
+    let c = cursor( 0 , col( "." ) + 1 ) 
+    let s = search( "<" , "bW" )
+    if s == 0
+        exit
+    endif
+    let node = ""
+    while stridx( node , ">" ) == -1
+        let node = node . getline( "." )
+        let c = cursor( line(".")+1 , 0)
+    endwhile
+    echo node
+endfunction
+
+function! GetWinPath()
+    let a = "c:" . @%
+    let @* = substitute( a , "\/" , "\\" , "g")
+endfunction
+
+autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif 
+
+set grepprg=cd\ %:p:h;grep\ -i\ -n\ 
+
+imap  <ESC>`[
+
+"inoremap . .`[
+imap <C-> "
+imap <C-k> <Up>
+imap <C-j> <Down>
+imap <C-h> <Left>
+imap <C-l> <Right>
+
+"turn off bell
+set vb t_vb=
+com! Ltags !cd %:p:h;ctags --langdef=LZX --langmap=LZX:+.lzx.lzl -R --totals \"--regex-LZX=/name=\\\"(\w*?)\\\"/\1/\" \"--regex-LZX=/id=\\\"(\w*?)\\\"/\1/\" 
+
+com! FixTabs :%s/\t/    /g
+
+set wmh=0
+
+set foldtext=MyFoldText()
+function MyFoldText()
+  let line = getline(v:foldstart)
+  let line = substitute(line, "\t", "    ", "g")
+  if strlen( line ) > 60
+    let line = strpart( line , 0 , 57 ) . "..."
+  endif
+  return line . "     (". (v:foldend - v:foldstart ). " lines)"
+endfunction
+
+cnoremap <S-Tab> bn 
+nnoremap <S-Tab> :bn 
+inoremap <S-Tab> <ESC>:bn 
+" get the file, print to temporary
+":!p4 print -o C:/Temp/p4(filename) -q //depot/lps-compiler/WEB-INF/lps/lfc/views/LzNewText.as#4
+"make bigger
+":set co=165start /w C:\Vim\vim62\gvim.exe --remote-wait-silent
+"=
+":vert diffsplit C:/Temp/p4out(filename)
+":set nofoldenable (turn off folds)
+":set diffopt=iwhite "allow whitespace
+":set foldcolumn=0 //stupid gray foldcolumn
+"tempname() -- returns a temporary name
+
+
+
+"command -nargs=1 CVSdiff silent call CVSdiff("%", "<args>") 
+"function! CVSdiff(filename, cvsversion) 
+    "" append a:filename to keep extension and therefore highlighting mode 
+    "let patchname = tempname() . a:filename 
+    "let tempname  = tempname() . a:filename 
+    "let newname   = tempname() . a:filename 
+    "execute "!cvs diff -a -r " . a:cvsversion . " " . a:filename . " > " . patch 
+    "execute "!cp " . a:filename . " " . tempname 
+    "execute "!patch -R -o " . newname . " " . tempname . " < " . patchname 
+    "execute "vertical diffsplit " . newname 
+    "call delete(patchname) 
+    "call delete(tempname) 
+    "call delete(newname) 
+"endfunction 
+
+set splitbelow
+
+command PFD call P4GoodDiff()
+function! P4GoodDiff()
+    let p4fstat= system( "p4 fstat " . expand( "%:p" ) )
+    let df=      matchstr( p4fstat , "depotFile\\s*\\zs\\S*\\ze\n" )
+    let hr=      matchstr( p4fstat , "haveRev\\s*\\zs\\S*\\ze\n" )
+    let lastrev= df."\\#".hr
+    let fname = tempname() . expand( "%:a" )
+    call system( "p4 print -q -o " . fname . " " . lastrev)
+    execute "diffsplit " . fname
+    setlocal buftype=nofile
+    setlocal bufhidden=delete
+    setlocal noswapfile
+    setlocal nobuflisted
+    execute "windo set foldcolumn=0"
+    execute "windo set nofoldenable"
+    execute "winc t"
+endfunction
+
+com! DE call DiffExit()
+function! DiffExit()
+    execute "windo set foldcolumn=0"
+    execute "windo set nodiff"
+    execute "winc b"
+    execute "bd"
+endfunction
+
+function! P4Opened()
+    let tmpfl = tempname()
+    execute "silent !p4 opened > " . tmpfl
+    execute "split " . tmpfl
+    setlocal buftype=nofile
+    setlocal bufhidden=delete
+    setlocal noswapfile
+    setlocal nobuflisted
+    nnoremap <buffer> <silent> <CR> :call P4OpenRevision()<CR>
+    nnoremap <buffer> <silent> q :close<CR>
+endfunction
+
+function! P4Revisions()
+    let tmpfl = tempname()
+    execute "silent !p4 filelog -l -i " . expand( "%:p" ) . " > " . tmpfl
+    execute "split " . tmpfl
+    setlocal buftype=nofile
+    setlocal bufhidden=delete
+    setlocal noswapfile
+    setlocal nobuflisted
+    setf p4
+    nnoremap <buffer> <silent> <CR> :call P4OpenRevision()<CR>
+    nnoremap <buffer> <silent> q :close<CR>
+endfunction
+
+function! P4Revert()
+    let $aucfile = expand( "%" )
+    autocmd FileChangedShell $aucfile autocmd! FileChangedShell $aucfile
+    call system( 'p4 revert ' . expand("%:p"))
+    execute( 'e!' )
+endfunction
+
+function! P4Edit()
+    let $aucfile = expand( "%" )
+    autocmd FileChangedShell $aucfile autocmd! FileChangedShell $aucfile
+    call system( 'p4 edit ' . expand("%:p"))
+    set noro
+endfunction
+
+function! P4OpenRevision()
+    let lin = line( "." )
+    let foundem = 0
+    let fname = ""
+    let rnum  = ""
+    while lin > 0 && foundem==0
+        let clin = getline( lin )
+        if  clin =~ "^\/\/depot.*"
+            let fname = clin
+        elseif rnum == ""
+            let rnum = matchstr( clin , "\\.\\.\\. \\#\\zs\\d*" )
+        endif
+        if fname != "" && rnum != ""
+            let foundem=1
+        endif
+        let lin = lin - 1
+    endwhile
+
+    if rnum == ""
+        let rname = fname
+    else
+        let rname = fname . "\\#" . rnum
+    endif
+
+    let tmpfl = tempname()
+    let dotext = matchstr( fname , "\\..\\{-}$" )
+    let tmpfl = tmpfl . dotext
+
+
+    execute "silent !p4 print -o " . tmpfl  . " " . rname 
+    execute "e " . tmpfl 
+    setlocal buftype=nowrite
+    setlocal noswapfile
+endfunction
+
+let $LPS_RELEASE="c:/cygwin/home/adam/laszlo/Tomcat/webapps/lps-2.2.1"
+set tags=./tags,../tags,../../tags,$LPS_HOME/lps/components/tags,$LPS_RELEASE/lps/components/tags
+
+com! DT call DiffThese()
+function! DiffThese()
+    execute "windo diffthis"
+    execute "windo set foldcolumn=0"
+    execute "windo set nofoldenable"
+endfunction
+
+function! P4GetChange( cnum )
+    let tmpfl = tempname()
+    execute "silent !p4 change -o " . a:cnum . " > " . tmpfl
+    execute "split " . tmpfl
+    setlocal bufhidden=delete
+    setlocal noswapfile
+    setlocal nobuflisted
+    setf p4
+    call search ("<enter")
+    normal "zz"
+    nnoremap <buffer> <silent> <CR> :call P4Write( "change" )<CR>
+    nnoremap <buffer> <silent> q :close<CR>
+endfunction
+
+function! P4GetClient( )
+    let tmpfl = tempname()
+    execute "silent !p4 client -o  > " . tmpfl
+    execute "split " . tmpfl
+    setlocal bufhidden=delete
+    setlocal noswapfile
+    setlocal nobuflisted
+    setf p4
+    call search ("^View:")
+    normal "zz"
+    nnoremap <buffer> <silent> <CR> :call P4Write( "client" )<CR>
+    nnoremap <buffer> <silent> q :close<CR>
+endfunction
+
+function! P4Write( what )
+    let goon = confirm ( "Write " . a:what ." description?" , "&Yes\n&No" ,2 )  
+    if goon == 1
+        execute "write" 
+        execute "silent !p4 " . a:what ." -i < '" . expand( "%:p" )  . "'"
+        execute "bd"
+    endif
+endfunction
+
+command -nargs=1 MakeDir silent call MakeDir( "<args>" ) 
+function! MakeDir( newname ) 
+    execute( "silent !mkdir %:p:h/".a:newname )
+endfunction
+
+command -nargs=1 Find call XFind( "<args>" ) 
+function! XFind( findname ) 
+    let found = system( "find $LPS_HOME -iname \'*" . a:findname . "*\'" )
+    echo found
+    "prefer lzx, as
+    let firstone = matchstr( found , ".\\{-}\\.as\\ze\n" )
+    "execute "e " . firstone 
+endfunction
+
+
+map  :silent !devdebug %:p <CR>
+map  :silent !devreload %:p <CR>
+cabbr Ldoc !cd $LPS_HOME;ant doc
+
+set backupskip+=*/Desktop/*
+set backupskip+=*.txt
+
+function! DoIndent()
+    let lin = line( "." )
+    let foundem = 0
+    while lin > 0 && foundem==0
+        let clin = getline( lin )
+        if  clin =~ "<\\w"
+            let tlin = clin
+            let foundem = 1
+        endif
+        let lin = lin - 1
+    endwhile
+
+    if foundem == 1
+        let ipos = matchend( tlin, "<\\S*" )
+        let oipos = ipos
+        let tx = " "
+        while ipos > 0
+            let tx = tx . " "
+            let ipos = ipos - 1
+        endwhile
+        let lin = line( "." )
+        let nline = substitute( getline( lin ) , "^ *", tx , "") 
+        call setline( lin, nline )
+        call cursor( lin, oipos+2 )
+    endif
+
+
+endfunction
+imap  :call DoIndent()<CR>
+nmap  :call DoIndent()<CR>
+
+:nnoremap <CR> :noh<CR><CR>
