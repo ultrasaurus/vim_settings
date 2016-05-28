@@ -3,7 +3,7 @@ These are mostly from Adam Wolff, my long time ago vim mentor with some modifica
 I use MacVim, which I love (gvim on Windows, which is also quite good)
 in my .bashrc, I have:
 ```
-alias vim=/Applications/MacVim-7_2-stable-1_2/mvim
+alias mvim="/Applications/MacVim.app/Contents/MacOS/MacVim"
 alias vi=vim
 ```
 
