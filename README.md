@@ -4,7 +4,7 @@ I use MacVim, which I love (gvim on Windows, which is also quite good)
 in my .bashrc, I have:
 ```
 alias mvim="/Applications/MacVim.app/Contents/MacOS/MacVim"
-alias vi=vim
+alias vi=mvim
 ```
 
 I used to use vim settings for bash (set -o vi), but it kills people when I'm pairing, so I've removed it
